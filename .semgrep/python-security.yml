@@ -1,0 +1,38 @@
+rules:
+  - id: no-os-environ-direct
+    languages: [python]
+    message: >
+      Do not read os.environ directly. Use app/config.py (pydantic-settings) for all configuration.
+    severity: WARNING
+    patterns:
+      - pattern: os.environ[$KEY]
+      - pattern-not-inside: |
+          # semgrep-ignore
+          ...
+    paths:
+      include:
+        - backend/app/
+
+  - id: no-sync-db-session
+    languages: [python]
+    message: >
+      Use async SQLAlchemy sessions via get_db dependency injection, not sync Session/SessionLocal.
+    severity: ERROR
+    pattern: SessionLocal()
+    paths:
+      include:
+        - backend/app/
+
+  - id: no-secrets-in-source
+    languages: [python]
+    message: >
+      Possible hardcoded secret detected. Use environment variables via app/config.py.
+    severity: ERROR
+    patterns:
+      - pattern-either:
+          - pattern: $VAR = "sk-..."
+          - pattern: $VAR = "Bearer ..."
+          - pattern: password = "..."
+    paths:
+      include:
+        - backend/app/

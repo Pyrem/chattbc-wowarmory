@@ -1,0 +1,51 @@
+services:
+  # ── Frontend (Next.js) ───────────────────────────────────
+  - type: web
+    name: chattbc-frontend
+    runtime: node
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          name: chattbc-backend
+          type: web
+          property: hostport
+        # Render will resolve to https://chattbc-backend.onrender.com
+      - key: NODE_ENV
+        value: production
+
+  # ── Backend (FastAPI) ────────────────────────────────────
+  - type: web
+    name: chattbc-backend
+    runtime: python
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -e .
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chattbc-db
+          property: connectionURI
+        # Render Postgres URI is postgres:// — asyncpg needs postgresql+asyncpg://
+        # Handled in app/config.py or via a wrapper
+      - key: JWT_SECRET
+        generateValue: true
+      - key: BLIZZARD_CLIENT_ID
+        sync: false
+      - key: BLIZZARD_CLIENT_SECRET
+        sync: false
+      - key: BNET_OAUTH_CLIENT_ID
+        sync: false
+      - key: BNET_OAUTH_CLIENT_SECRET
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.12.12"
+
+databases:
+  - name: chattbc-db
+    region: oregon
+    plan: free

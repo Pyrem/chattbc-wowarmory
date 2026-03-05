@@ -1,0 +1,13 @@
+id: no-raw-fetch-in-components
+language: tsx
+rule:
+  pattern: fetch($$$ARGS)
+  inside:
+    kind: arrow_function
+message: "Do not use raw fetch() in components. Use lib/api-client.ts instead."
+severity: warning
+files:
+  - "frontend/src/app/**/*.tsx"
+  - "frontend/src/components/**/*.tsx"
+ignoreFiles:
+  - "frontend/src/lib/**"

@@ -1,0 +1,7 @@
+id: no-any-type
+language: typescript
+rule:
+  kind: predefined_type
+  regex: ^any$
+message: "Avoid using `any` type. Use a specific type or `unknown` instead."
+severity: warning

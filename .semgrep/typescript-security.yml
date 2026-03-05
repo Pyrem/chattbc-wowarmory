@@ -1,0 +1,22 @@
+rules:
+  - id: no-console-log
+    languages: [typescript, javascript]
+    message: >
+      Do not use console.log in production code. Use console.error for actual errors only.
+    severity: WARNING
+    pattern: console.log(...)
+    paths:
+      include:
+        - frontend/src/
+      exclude:
+        - frontend/src/**/*.test.*
+
+  - id: no-innerhtml
+    languages: [typescript, javascript]
+    message: >
+      Do not use dangerouslySetInnerHTML — risk of XSS. Sanitize content or use safe alternatives.
+    severity: ERROR
+    pattern: dangerouslySetInnerHTML={$$$}
+    paths:
+      include:
+        - frontend/src/

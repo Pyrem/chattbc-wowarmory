@@ -1,0 +1,12 @@
+id: no-raw-httpx
+language: python
+rule:
+  pattern: httpx.AsyncClient($$$)
+message: "Do not use raw httpx.AsyncClient. Use app/services/blizzard.py BlizzardClient instead."
+severity: warning
+files:
+  - "backend/app/routers/**"
+  - "backend/app/services/**"
+ignoreFiles:
+  - "backend/app/services/blizzard.py"
+  - "backend/tests/**"

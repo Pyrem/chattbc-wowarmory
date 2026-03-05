@@ -1,0 +1,13 @@
+id: no-dict-return-in-router
+language: python
+rule:
+  pattern: return {$$$ITEMS}
+  inside:
+    kind: function_definition
+    follows:
+      kind: decorator
+      has:
+        kind: attribute
+        regex: ^(get|post|put|patch|delete)$
+message: "Route handlers must return Pydantic response models, not raw dicts."
+severity: error

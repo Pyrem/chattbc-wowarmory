@@ -1,0 +1,10 @@
+id: no-default-export
+language: typescript
+rule:
+  pattern: export default $$$DECL
+message: "Use named exports, not default exports (except in page.tsx/layout.tsx)."
+severity: warning
+files:
+  - "frontend/src/components/**/*.tsx"
+  - "frontend/src/hooks/**/*.ts"
+  - "frontend/src/lib/**/*.ts"

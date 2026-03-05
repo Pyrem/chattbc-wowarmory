@@ -12,3 +12,9 @@ class CharacterResponse(BaseModel):
     statistics: dict[str, Any]
     pvp: dict[str, Any]
     reputations: dict[str, Any]
+
+
+class CharacterOwnerResponse(BaseModel):
+    """Whether a character has a verified owner."""
+
+    verified: bool

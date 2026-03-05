@@ -16,6 +16,12 @@ export function SiteHeader() {
           >
             Realms
           </Link>
+          <Link
+            href="/settings"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Settings
+          </Link>
         </nav>
       </div>
     </header>

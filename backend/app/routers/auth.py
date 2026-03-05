@@ -124,4 +124,5 @@ async def me(current_user: User = Depends(get_current_user)) -> UserResponse:
         display_name=current_user.display_name,
         email_verified=current_user.email_verified,
         battle_net_linked=current_user.battle_net_id is not None,
+        battletag=current_user.battletag,
     )

@@ -13,6 +13,7 @@ class UserResponse(BaseModel):
     display_name: str
     email_verified: bool
     battle_net_linked: bool
+    battletag: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
 

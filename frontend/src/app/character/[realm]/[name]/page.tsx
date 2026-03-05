@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { fetchCharacter, CharacterNotFoundError } from "@/lib/character-api";
 import { CharacterHeader } from "@/components/character/CharacterHeader";
+import { VerifiedBadge } from "@/components/character/VerifiedBadge";
 import { GearDisplay } from "@/components/character/GearDisplay";
 import { TalentDisplay } from "@/components/character/TalentDisplay";
 import { PvpSection } from "@/components/character/PvpSection";
@@ -41,9 +42,34 @@ export default async function CharacterPage({ params }: PageProps) {
   const profile = data.profile as Record<string, unknown>;
   const charRealm = decodeURIComponent(realm);
 
+  const SERVER_API_BASE =
+    process.env.INTERNAL_API_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    "http://localhost:8000";
+  let verified = false;
+  try {
+    const ownerRes = await fetch(
+      `${SERVER_API_BASE}/api/characters/${encodeURIComponent(realm)}/${encodeURIComponent(name)}/owner`,
+      { next: { revalidate: 60 } },
+    );
+    if (ownerRes.ok) {
+      const ownerData = (await ownerRes.json()) as { verified: boolean };
+      verified = ownerData.verified;
+    }
+  } catch {
+    // Owner check failed — just don't show badge
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <CharacterHeader profile={profile} realm={charRealm} />
+      <div className="flex items-center gap-3">
+        <CharacterHeader profile={profile} realm={charRealm} />
+      </div>
+      {verified && (
+        <div className="mt-2">
+          <VerifiedBadge />
+        </div>
+      )}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <GearDisplay equipment={data.equipment} />

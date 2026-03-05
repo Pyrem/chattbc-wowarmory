@@ -6,6 +6,7 @@ export interface User {
   display_name: string;
   email_verified: boolean;
   battle_net_linked: boolean;
+  battletag: string | null;
 }
 
 export interface AuthResponse {

@@ -2,8 +2,6 @@ id: no-bare-except
 language: python
 rule:
   kind: except_clause
-  not:
-    has:
-      kind: as_pattern
+  regex: "^except\\s*:"
 message: "Do not use bare `except:` — always catch a specific exception type."
 severity: error

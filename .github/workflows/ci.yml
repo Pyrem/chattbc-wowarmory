@@ -115,12 +115,12 @@ jobs:
     needs: [backend-lint, frontend-lint]
     steps:
       - uses: actions/checkout@v4
+      - name: Install ast-grep
+        run: npm install -g @ast-grep/cli
       - name: Run ast-grep
-        uses: ast-grep/action@v0
-        with:
-          args: scan
+        run: ast-grep scan
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
+        uses: semgrep/semgrep-action@v1
         with:
           config: .semgrep/
 

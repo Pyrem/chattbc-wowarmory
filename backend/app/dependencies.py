@@ -7,8 +7,26 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.config import settings
 from app.database import get_db
 from app.models.user import User
+from app.services.blizzard import BlizzardClient
+from app.services.cache import CacheService
+from app.services.character_service import CharacterService
+from app.services.guild_service import GuildService
 
 bearer_scheme = HTTPBearer()
+
+# Singleton service instances
+_blizzard_client = BlizzardClient()
+_cache_service = CacheService()
+_character_service = CharacterService(blizzard=_blizzard_client, cache=_cache_service)
+_guild_service = GuildService(blizzard=_blizzard_client, cache=_cache_service)
+
+
+def get_character_service() -> CharacterService:
+    return _character_service
+
+
+def get_guild_service() -> GuildService:
+    return _guild_service
 
 
 async def get_current_user(

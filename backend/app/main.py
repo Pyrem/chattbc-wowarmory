@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import settings
 from app.exceptions import CharacterNotFoundError, GuildNotFoundError
-from app.routers import auth, characters, health
+from app.routers import auth, characters, guilds, health
 
 app = FastAPI(title=settings.app_name, debug=settings.debug)
 
@@ -19,6 +19,7 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(characters.router)
+app.include_router(guilds.router)
 
 
 @app.exception_handler(CharacterNotFoundError)

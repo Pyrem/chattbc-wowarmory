@@ -34,11 +34,11 @@ line-length = 99
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "A", "S", "T20", "SIM", "RUF"]
-ignore = ["S105", "S106"]
+ignore = ["S105", "S106", "B008"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101"]
-"alembic/**/*.py" = ["I001"]
+"alembic/**/*.py" = ["I001", "E501", "W291"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]

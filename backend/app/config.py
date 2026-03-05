@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     debug: bool = False
 
     # Database
-    database_url: str = "postgresql+asyncpg://chattbc:chattbc_dev@localhost:5432/chattbc"
+    database_url: str = "postgresql+asyncpg://chattbc:chattbc_dev@localhost:5433/chattbc"
 
     @model_validator(mode="after")
     def _fix_database_url(self) -> "Settings":
@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 15
     refresh_token_expire_days: int = 7
+    verification_token_expire_hours: int = 24
+    password_reset_token_expire_hours: int = 1
 
     # Blizzard Developer API (Client Credentials)
     blizzard_client_id: str = ""
